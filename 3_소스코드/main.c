@@ -1,36 +1,100 @@
 #include <stdio.h>
+#include <string.h>
 
-/*
-    1. [설계]에서 정의한 변수, 배열, (필요하면) 구조체를 여기에 선언하세요.
-    
-    예시 - 배열 사용:
-    char names[100][20];
-    int scores[100];
-    int count = 0;
-    
-    예시 - 구조체 사용 (선택):
-    struct Student {
-        char name[20];
-        int score;
-    };
-    struct Student students[100];
-*/
+// 영상 정보 구조체
+struct Video {
+    char name[30];
+    char type[20];
+    int length;
+    char date[12];
+    float rate;
+};
 
+struct Video list[100];
+int num = 0;
 
-/*
-    2. [알고리즘]에서 설계한 핵심 기능 함수들을 여기에 선언하세요.
-*/
-
+// 함수 선언
+void add();
+void show();
+void search();
+void avg();
 
 int main() {
-    
-    printf("--- C언어 미니 프로젝트 시작! ---\n");
+    int choice;
+    printf("--- Video Manager ---\n");
 
-    /*
-        3. [알고리즘]에서 설계한 main 함수의 흐름을
-           여기에 C언어로 자유롭게 구현하세요.
-    */
-    
-    
+    while (1) {
+        printf("\n1. Add  2. Show  3. Search  4. Avg  0. Exit\n");
+        printf("Choose: ");
+        scanf("%d", &choice);
+
+        if(choice==1) add();
+        else if(choice==2) show();
+        else if(choice==3) search();
+        else if(choice==4) avg();
+        else if(choice==0){ printf("Exit\n"); break;}
+        else printf("Wrong choice\n");
+    }
     return 0;
+}
+
+// 영상 등록 (scanf만 사용)
+void add() {
+    if(num>=100){ printf("Full\n"); return;}
+
+    printf("Name (no space): ");
+    scanf("%s", list[num].name);
+    printf("Type (no space): ");
+    scanf("%s", list[num].type);
+    printf("Length(min): ");
+    scanf("%d", &list[num].length);
+    printf("Date(YYYY-MM-DD): ");
+    scanf("%s", list[num].date);
+    printf("Rate(1~5): ");
+    scanf("%f", &list[num].rate);
+
+    num++;
+    printf("Added!\n");
+}
+
+// 영상 목록 보기
+void show() {
+    if(num==0){ printf("No videos\n"); return;}
+    for(int i=0;i<num;i++){
+        printf("번호: %d\n", i+1);
+        printf("이름: %s\n", list[i].name);
+        printf("종류: %s\n", list[i].type);
+        printf("길이: %d분\n", list[i].length);
+        printf("날짜: %s\n", list[i].date);
+        printf("평점: %.1f\n", list[i].rate);
+        printf("----------------------\n");
+    }
+}
+
+// 영상 검색 (scanf만 사용)
+void search() {
+    if(num==0){ printf("No videos\n"); return;}
+    char n[30];
+    printf("Search name: ");
+    scanf("%s", n);
+
+    for(int i=0;i<num;i++){
+        if(strcmp(list[i].name, n)==0){
+            printf("이름: %s\n", list[i].name);
+            printf("종류: %s\n", list[i].type);
+            printf("길이: %d분\n", list[i].length);
+            printf("날짜: %s\n", list[i].date);
+            printf("평점: %.1f\n", list[i].rate);
+            return;
+        }
+    }
+    printf("Not found\n");
+}
+
+// 평균 평점
+void avg() {
+    if(num==0){ printf("No videos\n"); return;}
+    float sum=0;
+    for(int i=0;i<num;i++) sum+=list[i].rate;
+    printf("Avg rate: %.2f\n",sum/num);
 }
