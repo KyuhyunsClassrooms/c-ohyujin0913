@@ -96,5 +96,5 @@ void avg() {
     if(num==0){ printf("No videos\n"); return;}
     float sum=0;
     for(int i=0;i<num;i++) sum+=list[i].rate;
-    printf("Avg rate: %.2f\n",sum/num);
+    printf("Avg rate: %.2f\n",sum/num)
 }
